@@ -293,3 +293,5 @@ fabric.properties
 .idea/inspectionProfiles/profiles_settings.xml
 .idea/.gitignore
 authentication/migrations/0001_initial.py
+.idea/dataSources.xml
+authentication/migrations/0002_user_user_grade.py
