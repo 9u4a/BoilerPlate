@@ -4,10 +4,10 @@ import jwt
 
 
 def RefreshToken(obj):
-    userObj = obj
     token = jwt.encode(
-        {'user_id': userObj.user_id,
+        {'user_id': obj.user_id,
          'exp': datetime.utcnow() + timedelta(days=14)},
         'boiler', algorithm='HS256'
     )
+    return token
 

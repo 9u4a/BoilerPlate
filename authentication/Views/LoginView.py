@@ -1,7 +1,8 @@
 from django.http import JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework.views import APIView
-from rest_framework_simplejwt.tokens import RefreshToken
+from authentication.access import AccessToken
+from authentication.refresh import RefreshToken
 
 from ..models import User
 
@@ -23,10 +24,8 @@ class LoginView(APIView):
                 'err': '비밀번호가 일치하지 않습니다.'
             }
             return JsonResponse(response, status=400)
-
-        token = RefreshToken.for_user(user)
-        refresh_token = str(token)
-        access_token = str(token.access_token)
+        refresh_token = RefreshToken(user)
+        access_token = AccessToken(user)
         response = JsonResponse({
             'success': True,
             'jwt_token': {
