@@ -1,17 +1,19 @@
 import jwt
-from django.http import HttpResponse, JsonResponse
+from django.http import JsonResponse
 from jwt import ExpiredSignatureError
 
-from authentication.access import AccessToken
-from models import User
+from authentication.Tokens.access import AccessToken
+from ..models import User
 
 
 # encoded_jwt = jwt.encode({"user_pw": "jun1234"}, "boiler", algorithm="HS256")
 
 def DecodeToken(request):
-    token = request.COOKIE.get('jwt')
+    retoken = request.COOKIE.get('refresh_token')
+    actoken = request.COOKIE.get('access_token')
+    logintoken = request.COOKIE.get('jwt')
     try:
-        token = jwt.decode(token, 'boiler', algorithms=["HS256"])
+        token = jwt.decode(actoken, 'boiler', algorithms=["HS256"])
         userObj = User.objects.get(user_pw=token['user_pw'])
         if userObj.user_id == token['user_id']:
             return userObj

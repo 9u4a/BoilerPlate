@@ -1,8 +1,8 @@
 from django.http import JsonResponse
 from rest_framework.parsers import JSONParser
 from rest_framework.views import APIView
-from authentication.access import AccessToken
-from authentication.refresh import RefreshToken
+from authentication.Tokens.access import AccessToken
+from authentication.Tokens.refresh import RefreshToken
 
 from ..models import User
 
@@ -25,13 +25,16 @@ class LoginView(APIView):
             }
             return JsonResponse(response, status=400)
         refresh_token = RefreshToken(user)
+        user.user_RefreshToken = refresh_token
+        user.save()
         access_token = AccessToken(user)
+        jwt_token = {
+            'access_token': access_token,
+            'refresh_token': refresh_token
+        }
         response = JsonResponse({
             'success': True,
-            'jwt_token': {
-                'access_token': access_token,
-                'refresh_token': refresh_token
-            }
+            'jwt_token': jwt_token
         }, status=200)
         response.set_cookie('access_token', access_token, httponly=True)
         response.set_cookie('refresh_token', refresh_token, httponly=True)

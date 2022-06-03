@@ -295,3 +295,5 @@ fabric.properties
 authentication/migrations/0001_initial.py
 .idea/dataSources.xml
 authentication/migrations/0002_user_user_grade.py
+authentication/migrations/__init__.py
+authentication/migrations/0002_user_user_refreshtoken.py
